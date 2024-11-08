@@ -24,6 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('register') ? 'active' : '' }}" href="{{ route('register') }}">Register</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{(request()->is('gallery'))? 'active' : ''}}" href="{{route('gallery.index')}}">Gallery</a>
+                    </li>
                     @else
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

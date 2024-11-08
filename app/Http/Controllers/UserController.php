@@ -51,7 +51,7 @@ class UserController extends Controller
             'photo' => 'image|nullable|max:1999'
         ]);
 
-        // Update nama dan email
+        // Update nama dan emailb
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 

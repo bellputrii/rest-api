@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginRegisterController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GalleryController;
 
 
 /*
@@ -46,6 +47,14 @@ Route::controller(LoginRegisterController::class)->group(function() {
 Route::controller(UserController::class)->group(function() {
     Route::get('/users','users')->name('users123');
 });
+
+Route::post('/gallery', 'GalleryController@store')->name('gallery.store');
+
+Route::resource('gallery', GalleryController::class);
+
+Route::resource('create', GalleryController::class);
+
+Route::resource('edit', GalleryController::class);
 
 Route::resource('users', UserController::class);
 
