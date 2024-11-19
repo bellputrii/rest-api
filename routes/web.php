@@ -50,9 +50,15 @@ Route::get('send-email', [SendEmailController::class, 'index'])->name('kirim-ema
 
 Route::post('post-email', [SendEmailController::class, 'store'])->name('post-email');
 
-// Send Daftar Controller
-Route::get('/user-register', [SendDaftarController::class, 'index'])->name('user-register');
-Route::post('/user-registered', [SendDaftarController::class, 'store'])->name('user-registered');
+// Route::middleware('guest')->group(function () {
+//     Route::get('/login', [LoginRegisterController::class, 'login'])->name('login');;
+//     Route::get('/register', [LoginRegisterController::class, 'register'])->name('register');
+//     Route::post('/store', [LoginRegisterController::class, 'store'])->name('store');
+//     Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('authenticate');
+    
+//     Route::get('/send-mail', [SendEmailController::class,'index'])->name('kirim-email');
+//     Route::post('/post-email', [SendEmailController::class,'store'])->name('post-email');
+// });
 
 
 Route::get('/test-email', function () {

@@ -25,7 +25,7 @@ class SendMailJob implements ShouldQueue
     {
         $email = new SendEmail($this->data);
         // Kirim email
-        Mail::to($this->data['email'])->send(new SendEmail($this->data));
+        Mail::to($this->data['email'])->send($email);
     }
 }
 

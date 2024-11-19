@@ -9,11 +9,12 @@
     <title>Notifikasi Pendaftaran</title>
 </head>
 <body>
-    <h1>Halo, {{ $data['name'] }}!</h1>
+    <h1>Halo, {{ $user['name'] }}!</h1>
     <p>Terima kasih telah mendaftar. Berikut informasi akun Anda:</p>
     <ul>
-        <li>Email: {{ $data['email_new'] }}</li>
-        <li>Tanggal Pendaftaran: {{ $data['registeredAt'] }}</li>
+        <li>Nama: {{ $user['name'] }}</li>
+        <li>Email: {{ $user['email'] }}</li>
+        <li>Tanggal Pendaftaran: {{ $user['create_at'] }}</li>
     </ul>
     <p>Selamat menggunakan aplikasi kami!</p>
 </body>
