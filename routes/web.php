@@ -5,18 +5,10 @@ use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GalleryController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\SendEmailController;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\UserDaftarController;
+use App\Http\Controllers\SendDaftarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,9 +36,6 @@ Route::controller(LoginRegisterController::class)->group(function() {
     Route::post('/logout','logout')->name('logout');
 });
 
-Route::controller(UserController::class)->group(function() {
-    Route::get('/users','users')->name('users123');
-});
 
 Route::post('/gallery', 'GalleryController@store')->name('gallery.store');
 
@@ -56,6 +45,21 @@ Route::resource('create', GalleryController::class);
 
 Route::resource('edit', GalleryController::class);
 
-Route::resource('users', UserController::class);
 
-Route::resource('edit', UserController::class);
+Route::get('send-email', [SendEmailController::class, 'index'])->name('kirim-email');
+
+Route::post('post-email', [SendEmailController::class, 'store'])->name('post-email');
+
+// Send Daftar Controller
+Route::get('/user-register', [SendDaftarController::class, 'index'])->name('user-register');
+Route::post('/user-registered', [SendDaftarController::class, 'store'])->name('user-registered');
+
+
+Route::get('/test-email', function () {
+    Mail::raw('Testing email configuration', function ($message) {
+        $message->to('beldaputri5@gmail.com')
+                ->subject('Test Email');
+    });
+
+    return 'Test email sent!';
+});
