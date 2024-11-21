@@ -1,0 +1,126 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sample API Documentation",
+        "description": "API documentation for the GreetController",
+        "contact": {
+            "email": "your-email@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/gallery": {
+            "post": {
+                "tags": [
+                    "Gallery"
+                ],
+                "summary": "Upload an image to the gallery",
+                "description": "Accepts an image file and returns the URL of the uploaded image",
+                "operationId": "55dcca408db6e028e8054344e34ab2ec",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Image uploaded successfully",
+                                    "data": {
+                                        "url": "http://example.com/storage/images/filename.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or file not uploaded"
+                    }
+                }
+            }
+        },
+        "/api/greet": {
+            "get": {
+                "tags": [
+                    "Greeting"
+                ],
+                "summary": "Greet the user",
+                "description": "Returns a greeting message with user details",
+                "operationId": "8b95ba5bd0ea6799e82fed154e0abeba",
+                "parameters": [
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "User's first name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "User's last name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "success": true,
+                                    "message": "Berhasil memproses masukan user",
+                                    "data": {
+                                        "output": "Halo John Doe",
+                                        "firstname": "John",
+                                        "lastname": "Doe"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Gallery",
+            "description": "Gallery"
+        },
+        {
+            "name": "Greeting",
+            "description": "Greeting"
+        }
+    ]
+}

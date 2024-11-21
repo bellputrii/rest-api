@@ -50,15 +50,15 @@ Route::get('send-email', [SendEmailController::class, 'index'])->name('kirim-ema
 
 Route::post('post-email', [SendEmailController::class, 'store'])->name('post-email');
 
-// Route::middleware('guest')->group(function () {
-//     Route::get('/login', [LoginRegisterController::class, 'login'])->name('login');;
-//     Route::get('/register', [LoginRegisterController::class, 'register'])->name('register');
-//     Route::post('/store', [LoginRegisterController::class, 'store'])->name('store');
-//     Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('authenticate');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginRegisterController::class, 'login'])->name('login');;
+    Route::get('/register', [LoginRegisterController::class, 'register'])->name('register');
+    Route::post('/store', [LoginRegisterController::class, 'store'])->name('store');
+    Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('authenticate');
     
-//     Route::get('/send-mail', [SendEmailController::class,'index'])->name('kirim-email');
-//     Route::post('/post-email', [SendEmailController::class,'store'])->name('post-email');
-// });
+    Route::get('/send-mail', [SendEmailController::class,'index'])->name('kirim-email');
+    Route::post('/post-email', [SendEmailController::class,'store'])->name('post-email');
+});
 
 
 Route::get('/test-email', function () {

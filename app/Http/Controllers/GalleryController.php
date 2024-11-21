@@ -3,126 +3,78 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Post(
+     *     path="/api/gallery",
+     *     tags={"Gallery"},
+     *     summary="Upload an image to the gallery",
+     *     description="Accepts an image file and returns the URL of the uploaded image",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"image"},
+     *                 @OA\Property(
+     *                     property="image",
+     *                     description="Image file to upload",
+     *                     type="string",
+     *                     format="binary"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Image uploaded successfully",
+     *         @OA\JsonContent(
+     *             example={
+     *                 "success": true,
+     *                 "message": "Image uploaded successfully",
+     *                 "data": {
+     *                     "url": "http://example.com/storage/images/filename.jpg"
+     *                 }
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input or file not uploaded"
+     *     )
+     * )
      */
-    public function index()
+    public function uploadImage(Request $request)
     {
-        $data = array(
-            'id' => "posts",
-            'menu' => 'Gallery',
-            'galleries' => Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->paginate(30)
-        );
-        return view('gallery.index', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('gallery.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'picture' => 'image|nullable|max:10000'
+        // Validasi input
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Upload Image
-        if ($request->hasFile('picture')) {
-            $filenameWithExt = $request->file('picture')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('picture')->getClientOriginalExtension();
-            $filenameToSave = $filename . '_' . time() . '.' . $extension;
-            // Menyimpan gambar di public/posts
-            $path = $request->file('picture')->storeAs('posts', $filenameToSave);
-        } else {
-            $filenameToSave = null;
+        // Proses unggah gambar
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $path = $image->storeAs('public/images', $image->getClientOriginalName());
+
+            // Menghasilkan URL file yang diupload
+            $imageUrl = Storage::url($path);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Image uploaded successfully',
+                'data' => [
+                    'url' => $imageUrl,
+                ],
+            ], 200);
         }
 
-        $post = new Post;
-        $post->picture = $filenameToSave;
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-        $post->save();
-
-        return redirect('gallery')->with('success', 'Berhasil menambahkan data baru');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $gallery = Post::find($id);
-    
-        if (!$gallery) {
-            return redirect('gallery')->with('error', 'Gallery item not found');
-        }
-        
-        return view('gallery.edit')->with('gallery', $gallery);
-    }
-    
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'picture' => 'image|nullable|max:1999'
-        ]);
-
-        $post = Post::find($id);
-        if ($request->hasFile('picture')) {
-            if ($post->picture != 'noimage.png') {
-                Storage::delete('public/posts/' . $post->picture); // Pastikan path sesuai
-            }
-
-            $filenameWithExt = $request->file('picture')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('picture')->getClientOriginalExtension();
-            $filenameToSave = $filename . '_' . time() . '.' . $extension;
-            // Menyimpan gambar di public/posts
-            $path = $request->file('picture')->storeAs('posts/', $filenameToSave);
-
-            $post->picture = $filenameToSave;
-        }
-
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-        $post->save();
-
-        return redirect('gallery')->with('success', 'Data berhasil diperbarui');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        $post = Post::find($id);
-
-        if ($post->picture != 'noimage.png') {
-            Storage::delete('public/posts/' . $post->picture); // Pastikan path sesuai
-        }
-
-        $post->delete();
-
-        return redirect('gallery')->with('success', 'Data berhasil dihapus');
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to upload image',
+        ], 400);
     }
 }
