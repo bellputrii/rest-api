@@ -14,51 +14,46 @@
     },
     "paths": {
         "/api/gallery": {
-            "post": {
+            "get": {
                 "tags": [
-                    "Gallery"
+                    "gallery"
                 ],
-                "summary": "Upload an image to the gallery",
-                "description": "Accepts an image file and returns the URL of the uploaded image",
-                "operationId": "55dcca408db6e028e8054344e34ab2ec",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "image"
-                                ],
-                                "properties": {
-                                    "image": {
-                                        "description": "Image file to upload",
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
+                "summary": "Returns a Sample API gallery response",
+                "description": "A sample gallery to test out the API",
+                "operationId": "gallery",
                 "responses": {
                     "200": {
-                        "description": "Image uploaded successfully",
+                        "description": "successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {},
                                 "example": {
                                     "success": true,
-                                    "message": "Image uploaded successfully",
-                                    "data": {
-                                        "url": "http://example.com/storage/images/filename.jpg"
-                                    }
+                                    "message": "Berhasil memproses galleries",
+                                    "galleries": [
+                                        {
+                                            "id": 1,
+                                            "title": "gallery bell",
+                                            "description": "deskripsi gallery bell",
+                                            "picture": "bell.jpeg",
+                                            "created_at": "2024-11-06T02:20:42.000000Z",
+                                            "updated_at": "2024-11-06T02:20:42.000000Z"
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "Invalid input or file not uploaded"
+                    "404": {
+                        "description": "Data tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "detail": "strings"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -115,8 +110,8 @@
     },
     "tags": [
         {
-            "name": "Gallery",
-            "description": "Gallery"
+            "name": "gallery",
+            "description": "gallery"
         },
         {
             "name": "Greeting",

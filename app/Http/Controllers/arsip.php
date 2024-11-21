@@ -16,8 +16,7 @@ class GalleryController extends Controller
         $data = array(
             'id' => "posts",
             'menu' => 'Gallery',
-            'galleries' => array()
-            // 'galleries' => Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->paginate(30)
+            'galleries' => Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->paginate(30)
         );
         return view('gallery.index', $data);
     }
@@ -125,54 +124,5 @@ class GalleryController extends Controller
         $post->delete();
 
         return redirect('gallery')->with('success', 'Data berhasil dihapus');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    /**
-     * @OA\Get(
-     *     path="/api/gallery",
-     *     tags={"gallery"},
-     *     summary="Returns a Sample API gallery response",
-     *     description="A sample gallery to test out the API",
-     *     operationId="gallery",
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\JsonContent
-     *           (example={
-     *               "success": true,
-     *               "message": "Berhasil memproses galleries",
-     *               "galleries": {
-     *                  {
-     *                      "id": 1,
-     *                      "title": "gallery bell",
-     *                      "description": "deskripsi gallery bell",
-     *                      "picture": "bell.jpeg",
-     *                      "created_at": "2024-11-06T02:20:42.000000Z",
-     *                      "updated_at": "2024-11-06T02:20:42.000000Z"
-     *                  }
-     *              }
-     *          }),
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Data tidak ditemukan",
-     *         @OA\JsonContent
-     *           (example={
-     *               "detail": "strings"
-     *          }),
-     *     )
-     * )
-     */
-    public function gallery()
-    {
-        $data = array(
-            'message' => 'Berhasil memproses galleries',
-            'success' => true,
-            'galleries' => Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->get()
-        );
-        return response()->json($data);
     }
 }

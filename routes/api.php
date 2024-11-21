@@ -14,4 +14,4 @@ Route::get('/info', [InfoController::class, 'index'])->name('info');
 
 Route::get('/greet', [GreetController::class, 'greet'])->name('greet');
 
-Route::post('/gallery', [GalleryController::class, 'uploadImage']);
+Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
