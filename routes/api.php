@@ -14,4 +14,6 @@ Route::get('/info', [InfoController::class, 'index'])->name('info');
 
 Route::get('/greet', [GreetController::class, 'greet'])->name('greet');
 
+// Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
+
 Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
