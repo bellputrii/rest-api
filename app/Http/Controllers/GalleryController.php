@@ -29,15 +29,15 @@ class GalleryController extends Controller
      *     path="/api/gallery",
      *     tags={"Gallery"},
      *     summary="Get list of books pictured",
-     *     description="Mengambil daftar buku yang ada gambar",   
+     *     description="Mengambil daftar galeri",   
      * @OA\Response(
      *         response=200,
-     *         description="Sukses mendapatkan data buku",
+     *         description="Sukses mendapatkan data galeri",
      *         @OA\JsonContent(
      *             type="object",
      *             properties={
      *                 @OA\Property(property="status", type="boolean", example=true),
-     *                 @OA\Property(property="message", type="string", example="Berhasil mendapatkan semua buku"),
+     *                 @OA\Property(property="message", type="string", example="Berhasil mendapatkan semua foto"),
      *                 @OA\Property(
      *                     property="data",
      *                     type="array",
@@ -45,9 +45,9 @@ class GalleryController extends Controller
      *                         type="object",
      *                         properties={
      *                             @OA\Property(property="id", type="integer", example=1),
-     *                             @OA\Property(property="title", type="string", example="The Great Gatsby"),
-     *                             @OA\Property(property="writer", type="string", example="F. Scott Fitzgerald"),
-     *                             @OA\Property(property="picture", type="string", example="image_url.jpg")
+     *                             @OA\Property(property="title", type="string", example="The Analytical Rules"),
+     *                             @OA\Property(property="writer", type="string", example="Harry Potter"),
+     *                             @OA\Property(property="picture", type="string", example="image_new_url.jpg")
      *                         }
      *                     )
      *                 ),
@@ -66,13 +66,13 @@ class GalleryController extends Controller
      */
     public function indexAPI()
     {
-        $data_buku_bergambar = Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->get();
+        $data_gambar = Post::where('picture', '!=', '')->whereNotNull('picture')->orderBy('created_at', 'desc')->get();
 
         // Mereturn respons dalam format JSON
         return response()->json([
             'status' => true,
-            'message' => "Berhasil mendapatkan semua buku",
-            'data' => $data_buku_bergambar,
+            'message' => "Berhasil mendapatkan semua gambar",
+            'data' => $data_gambar,
         ], 200);
     }
     /**
